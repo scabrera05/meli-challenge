@@ -1,7 +1,5 @@
 package com.meli.challenge.domain.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Date;
 import java.util.List;
 
@@ -10,11 +8,11 @@ public class TraceResponseDto {
     private String ip;
     private Date date;
     private String country;
-    private String isoCode;
-    private List<String> Languages;
+    private String isoAlphaCode2;
+    private String isoAlphaCode3;
+    private List<String> languages;
     private String currency;
     private List<String> times;
-    @JsonProperty("estimated_distance")
     private String estimatedDistance;
 
     public String getIp() {
@@ -41,20 +39,28 @@ public class TraceResponseDto {
         this.country = country;
     }
 
-    public String getIsoCode() {
-        return isoCode;
+    public String getIsoAlphaCode2() {
+        return isoAlphaCode2;
     }
 
-    public void setIsoCode(String isoCode) {
-        this.isoCode = isoCode;
+    public void setIsoAlphaCode2(String isoAlphaCode2) {
+        this.isoAlphaCode2 = isoAlphaCode2;
+    }
+
+    public String getIsoAlphaCode3() {
+        return isoAlphaCode3;
+    }
+
+    public void setIsoAlphaCode3(String isoAlphaCode3) {
+        this.isoAlphaCode3 = isoAlphaCode3;
     }
 
     public List<String> getLanguages() {
-        return Languages;
+        return languages;
     }
 
     public void setLanguages(List<String> languages) {
-        Languages = languages;
+        this.languages = languages;
     }
 
     public String getCurrency() {
@@ -80,5 +86,4 @@ public class TraceResponseDto {
     public void setEstimatedDistance(String estimatedDistance) {
         this.estimatedDistance = estimatedDistance;
     }
-
 }
