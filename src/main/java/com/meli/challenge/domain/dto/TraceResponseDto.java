@@ -1,5 +1,7 @@
 package com.meli.challenge.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +14,7 @@ public class TraceResponseDto {
     private String isoAlphaCode3;
     private List<String> languages;
     private String currency;
-    private List<String> times;
+    private List<String> timezones;
     private String estimatedDistance;
 
     public String getIp() {
@@ -71,12 +73,12 @@ public class TraceResponseDto {
         this.currency = currency;
     }
 
-    public List<String> getTimes() {
-        return times;
+    public List<String> getTimezones() {
+        return timezones;
     }
 
-    public void setTimes(List<String> times) {
-        this.times = times;
+    public void setTimezones(List<String> timezones) {
+        this.timezones = timezones;
     }
 
     public String getEstimatedDistance() {
