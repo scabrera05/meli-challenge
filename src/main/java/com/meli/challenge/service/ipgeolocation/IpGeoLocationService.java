@@ -2,6 +2,8 @@ package com.meli.challenge.service.ipgeolocation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.meli.challenge.domain.dto.IpLocationInformationDto;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,6 +28,8 @@ public class IpGeoLocationService {
 
     }
 
+    @Getter
+    @Setter
     private static class Ip2CountryResult {
 
         private String countryName;
@@ -34,37 +38,5 @@ public class IpGeoLocationService {
         private String countryIsoAlphaCode2;
         @JsonProperty("countryCode3")
         private String countryIsoAlphaCode3;
-
-        public String getCountryName() {
-            return countryName;
-        }
-
-        public void setCountryName(String countryName) {
-            this.countryName = countryName;
-        }
-
-        public String getCountryEmoji() {
-            return countryEmoji;
-        }
-
-        public void setCountryEmoji(String countryEmoji) {
-            this.countryEmoji = countryEmoji;
-        }
-
-        public String getCountryIsoAlphaCode2() {
-            return countryIsoAlphaCode2;
-        }
-
-        public void setCountryIsoAlphaCode2(String countryIsoAlphaCode2) {
-            this.countryIsoAlphaCode2 = countryIsoAlphaCode2;
-        }
-
-        public String getCountryIsoAlphaCode3() {
-            return countryIsoAlphaCode3;
-        }
-
-        public void setCountryIsoAlphaCode3(String countryIsoAlphaCode3) {
-            this.countryIsoAlphaCode3 = countryIsoAlphaCode3;
-        }
     }
 }

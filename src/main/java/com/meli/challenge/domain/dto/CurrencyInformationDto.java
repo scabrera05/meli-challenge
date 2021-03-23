@@ -1,22 +1,17 @@
 package com.meli.challenge.domain.dto;
 
-public class CurrencyInformationDto {
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+
+import java.io.Serializable;
+
+@Getter
+@Setter
+public class CurrencyInformationDto implements Serializable {
+    @Id
+    private String currencyCode;
     private String base;
     private String rate;
-
-    public String getBase() {
-        return base;
-    }
-
-    public void setBase(String base) {
-        this.base = base;
-    }
-
-    public String getRate() {
-        return rate;
-    }
-
-    public void setRate(String rate) {
-        this.rate = rate;
-    }
 }
