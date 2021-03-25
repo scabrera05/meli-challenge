@@ -3,6 +3,7 @@ package com.meli.challenge.service.currencyconversion;
 import com.meli.challenge.domain.dto.CurrencyInformationDto;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -13,15 +14,20 @@ import java.util.Map;
 @Service
 public class CurrencyInformationServiceImpl implements CurrencyInformationService {
 
+    @Value("${fixerCurrencyService.baseUrl}")
+    private String currencyApiUrl;
+
+    @Value("${fixerCurrencyService.accessKey}")
+    private String accessKey;
+
+    @Value("${fixerCurrencyService.baseCurrency}")
+    private String baseCurrency;
+
     @Cacheable("currencies")
     public CurrencyInformationDto getCurrencyInformation(String currencyCode) {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        // TODO: pasar datos a configuración
-        final String currencyApiUrl = "http://data.fixer.io/api/latest";
-        final String accessKey = "39cab8e7539ea6beaa52b0a23d30522e";
-        final String baseCurrency = "EUR";
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(currencyApiUrl)
                 .queryParam("access_key", accessKey)

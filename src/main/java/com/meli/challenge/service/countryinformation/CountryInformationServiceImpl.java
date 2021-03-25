@@ -3,6 +3,7 @@ package com.meli.challenge.service.countryinformation;
 import com.meli.challenge.domain.dto.CountryInformationDto;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,8 +16,9 @@ public class CountryInformationServiceImpl implements CountryInformationService 
 
     public static final double BUENOS_AIRES_LATITUDE = -34.599722;
     public static final double BUENOS_AIRES_LONGITUDE = -58.381944;
-    // TODO: Pasar a configuración
-    public static final String IP_2_COUNTRY_BASE_URL = "https://restcountries.eu/rest/v2/alpha/";
+
+    @Value("${restCountriesService.baseUrl}")
+    public String restCountryServiceBaseUrl;
 
     /**
      * Información basada en https://www.geodatasource.com/resources/tutorials/how-to-calculate-the-distance-between-2-locations-using-java/
@@ -54,8 +56,7 @@ public class CountryInformationServiceImpl implements CountryInformationService 
         // TODO: Autowire RestTemplate
         RestTemplate restTemplate = new RestTemplate();
 
-        // TODO: pasar datos a configuración
-        String countryApiUrl = IP_2_COUNTRY_BASE_URL + countryIsoAlphaCode3;
+        String countryApiUrl = restCountryServiceBaseUrl + '/' + countryIsoAlphaCode3;
         CountryApiResponse countryResult = restTemplate.getForObject(countryApiUrl, CountryApiResponse.class);
 
         CountryInformationDto countryInformation = new CountryInformationDto();

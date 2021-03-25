@@ -18,14 +18,16 @@ public class TraceServiceImpl implements TraceService {
     private final CountryInformationService countryInformationService;
     private final CurrencyInformationService currencyInformationService;
     private final LocationService locationService;
-
+    private final IpGeoLocationService ipGeoLocationService;
 
     public TraceServiceImpl(CountryInformationService countryInformationService,
                             CurrencyInformationService currencyInformationService,
-                            LocationService locationService) {
+                            LocationService locationService,
+                            IpGeoLocationService geoLocationService) {
         this.countryInformationService = countryInformationService;
         this.currencyInformationService = currencyInformationService;
         this.locationService = locationService;
+        this.ipGeoLocationService = geoLocationService;
     }
 
     private static String getActualDateTimeInUTCFormatted() {
@@ -38,8 +40,7 @@ public class TraceServiceImpl implements TraceService {
     public TraceResponseDto traceIp(String ip) {
 
         // Obtener información de país por IP
-        IpGeoLocationService geoLocationService = new IpGeoLocationService();
-        IpLocationInformationDto ipLocationInfo = geoLocationService.getIpLocationInformationDto(ip);
+        IpLocationInformationDto ipLocationInfo = ipGeoLocationService.getIpLocationInformationDto(ip);
 
         // TODO: controlar resultado distinto de null
         // TODO: controlar posible excepciones con invocación
