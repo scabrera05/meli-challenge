@@ -7,6 +7,8 @@ import com.meli.challenge.service.ipgeolocation.IpGeoLocationService;
 import com.meli.challenge.service.location.LocationService;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
@@ -24,6 +26,12 @@ public class TraceServiceImpl implements TraceService {
         this.countryInformationService = countryInformationService;
         this.currencyInformationService = currencyInformationService;
         this.locationService = locationService;
+    }
+
+    private static String getActualDateTimeInUTCFormatted() {
+        DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        return df1.format(new Date());
     }
 
     @Override
@@ -50,7 +58,7 @@ public class TraceServiceImpl implements TraceService {
         traceResponse.setIsoAlphaCode3(ipLocationInfo.getCountryIsoAlphaCode3());
         traceResponse.setIsoAlphaCode2(ipLocationInfo.getCountryIsoAlphaCode2());
         traceResponse.setCountry(country.getName());
-        traceResponse.setDate(new Date());
+        traceResponse.setDate(getActualDateTimeInUTCFormatted());
         traceResponse.setLanguages(country.getLanguages());
         traceResponse.setTimezones(country.getTimezones());
         traceResponse.setCurrency(String.format("%S (1 %S = %s %S)", country.getCurrencyCode(), currency.getBase(), currency.getRate(), country.getCurrencyCode()));
