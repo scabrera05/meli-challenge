@@ -35,8 +35,6 @@ public class CurrencyInformationServiceImpl implements CurrencyInformationServic
         currencyInformation.setBase(baseCurrency);
         currencyInformation.setRate(currencyResult.rates.get(currencyCode));
 
-//        currencyRepository.save(currencyInformation);
-
         return currencyInformation;
     }
 

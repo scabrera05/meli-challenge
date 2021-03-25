@@ -1,5 +1,6 @@
 package com.meli.challenge.controllers;
 
+import com.meli.challenge.domain.dto.StatsResponseDto;
 import com.meli.challenge.domain.dto.TraceResponseDto;
 import com.meli.challenge.domain.model.IpRequestModel;
 import com.meli.challenge.service.TraceService;
@@ -25,10 +26,18 @@ public class IpController {
     @PostMapping(value = "/trace")
     public TraceResponseDto trace(@RequestBody(required = true) IpRequestModel ipModel) {
 
-        // TODO: Agregar interfaz de TraceService
-        TraceResponseDto response = traceService.traceIp(ipModel.getIp());
+        TraceResponseDto traceInformation = traceService.traceIp(ipModel.getIp());
 
-        return response;
+        return traceInformation;
+
+    }
+
+    @GetMapping(value = "/stats")
+    public StatsResponseDto getStatistics() {
+
+        StatsResponseDto statistics = traceService.getStatistics();
+
+        return statistics;
 
     }
 

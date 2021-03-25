@@ -1,28 +1,32 @@
 package com.meli.challenge.service;
 
-import com.meli.challenge.domain.dto.CountryInformationDto;
-import com.meli.challenge.domain.dto.CurrencyInformationDto;
-import com.meli.challenge.domain.dto.IpLocationInformationDto;
-import com.meli.challenge.domain.dto.TraceResponseDto;
+import com.meli.challenge.domain.dto.*;
 import com.meli.challenge.service.countryinformation.CountryInformationService;
 import com.meli.challenge.service.currencyconversion.CurrencyInformationService;
 import com.meli.challenge.service.ipgeolocation.IpGeoLocationService;
+import com.meli.challenge.service.location.LocationService;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class TraceServiceImpl implements TraceService {
 
     private final CountryInformationService countryInformationService;
     private final CurrencyInformationService currencyInformationService;
+    private final LocationService locationService;
 
 
-    public TraceServiceImpl(CountryInformationService countryInformationService, CurrencyInformationService currencyInformationService) {
+    public TraceServiceImpl(CountryInformationService countryInformationService,
+                            CurrencyInformationService currencyInformationService,
+                            LocationService locationService) {
         this.countryInformationService = countryInformationService;
         this.currencyInformationService = currencyInformationService;
+        this.locationService = locationService;
     }
 
+    @Override
     public TraceResponseDto traceIp(String ip) {
 
         // Obtener información de país por IP
@@ -52,7 +56,28 @@ public class TraceServiceImpl implements TraceService {
         traceResponse.setCurrency(String.format("%S (1 %S = %s %S)", country.getCurrencyCode(), currency.getBase(), currency.getRate(), country.getCurrencyCode()));
         traceResponse.setEstimatedDistance(String.format("%s Kms", (long) country.getDistanceFromBuenosAires()));
 
+        // Save location distance information
+        locationService.saveLocation(
+                country.getCountryIsoAlphaCode3(),
+                country.getName(),
+                country.getDistanceFromBuenosAires()
+        );
+
         return traceResponse;
+    }
+
+    @Override
+    public StatsResponseDto getStatistics() {
+        Optional<Integer> minDistanceFromBuenosAires = locationService.getMinDistanceFromBuenosAires();
+        Optional<Integer> maxDistanceFromBuenosAires = locationService.getMaxDistanceFromBuenosAires();
+        Optional<Integer> avgDistanceInvocations = locationService.getAvgDistanceInvocations();
+
+        StatsResponseDto stats = new StatsResponseDto();
+        stats.setMinDistanceFromBuenosAires(minDistanceFromBuenosAires);
+        stats.setMaxDistanceFromBuenosAires(maxDistanceFromBuenosAires);
+        stats.setAvgDistanceInvocations(avgDistanceInvocations);
+
+        return stats;
     }
 
 }

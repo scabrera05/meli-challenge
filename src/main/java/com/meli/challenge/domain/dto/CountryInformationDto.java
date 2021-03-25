@@ -17,5 +17,5 @@ public class CountryInformationDto implements Serializable {
     private List<String> languages;
     private String currencyCode;
     private List<String> timezones;
-    private double distanceFromBuenosAires;
+    private int distanceFromBuenosAires;
 }

@@ -1,7 +1,6 @@
 package com.meli.challenge.service.countryinformation;
 
 import com.meli.challenge.domain.dto.CountryInformationDto;
-import com.meli.challenge.repositories.CountryRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.cache.annotation.Cacheable;
@@ -77,9 +76,7 @@ public class CountryInformationServiceImpl implements CountryInformationService 
                 countryResult.latlng.get(0),
                 countryResult.getLatlng().get(1),
                 "K");
-        countryInformation.setDistanceFromBuenosAires(distanceFromCountryToBsAsInKms);
-
-//        countryRepository.save(countryInformation);
+        countryInformation.setDistanceFromBuenosAires((int) distanceFromCountryToBsAsInKms);
 
         return countryInformation;
     }
