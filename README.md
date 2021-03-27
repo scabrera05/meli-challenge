@@ -7,29 +7,64 @@ The service returns information about the geographic location, currency. In addi
 ## Technology stack and plugins used
 
 * [Spring Boot]("https://spring.io/projects/spring-boot")
-* [Java SE 11]("https://www.oracle.com/java/technologies/javase-downloads.html)
+* [Java SE 11 (LTS)]("https://www.oracle.com/java/technologies/javase-downloads.html)
 * [InteliJ IDEA]("https://www.jetbrains.com/es-es/idea/")
 * [Redis]("https://redis.io/")
+* [PostgreSQL]("https://www.postgresql.org/")
+
+## External dependencies
+
+* [IP 2 Country]("https://ip2country.info/")
+* [Fixer]("https://fixer.io/")
+* [REST Countries]("https://restcountries.eu/")
 
 ## Installation
 
-### Database configuration
+### Pre requisites
 
-COMPLETAR
-
-### Redis
+#### Redis
 
 ```bash
 sudo apt-get install redis-server
 ```
 
+#### PostgreSQL
+
+Install PostgreSQL
+
+```bash
+$ sudo apt install postgresql postgresql-contrib
+```
+
+Create database with name `ip_trace`
+
 ### Running the application
 
-Clone and run the application using the [Spring Boot Maven plugin]("https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/")
+Clone the repository
 
-    $ git clone https://github.com/scabrera05/meli-challenge.git
-    $ cd meli-challenge
-    $ mvn spring-boot:run
+```bash
+$ git clone https://github.com/scabrera05/meli-challenge.git
+$ cd meli-challenge
+```
+
+Adjust `application.properties`
+
+* Postgres database
+* Redis server
+* Fixer access key
+
+```properties
+spring.datasource.username=[POSTGRES_USERNAME]
+spring.datasource.password=[POSTGRES_PASSWORD]
+fixerCurrencyService.accessKey=[FIXER_IO_ACCESS_KEY]
+redis.password=[REDIS_PASSWORD]
+```
+
+Run the application using the [Spring Boot Maven plugin]("https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/")
+
+```bash
+$ mvn spring-boot:run
+```
 
 Alternatively import and run the solution from a suitable IDE.
 
@@ -51,8 +86,6 @@ Health check endpoint. HTTP 200 OK status code returned
     Content-Length: 0
     Date: Fri, 26 Mar 2021 23:43:02 GMT
 
-![ping service](screenshots/ping_service.png)
-
 ### Statistics
 
 #### Request
@@ -73,6 +106,8 @@ Health check endpoint. HTTP 200 OK status code returned
         "maxDistanceFromBuenosAires":11564,
         "avgDistanceInvocations":7193
     }
+
+#### Example
 
 ![img.png](screenshots/stats_service.png)
 
@@ -98,10 +133,13 @@ Health check endpoint. HTTP 200 OK status code returned
         "estimatedDistance": "282 Kms"
     }
 
+#### Example
+
 ![trace service](screenshots/trace_service.png)
 
 ## Improvements and TO-DO list
 
 * Deploy app in Heorku
-* Implement project Unit Tests
+* Implement Unit Tests
 * Allow https
+* Add swagger documentation
