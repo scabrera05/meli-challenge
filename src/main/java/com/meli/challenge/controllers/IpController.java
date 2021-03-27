@@ -5,6 +5,7 @@ import com.meli.challenge.domain.dto.TraceResponseDto;
 import com.meli.challenge.domain.model.IpRequestModel;
 import com.meli.challenge.service.TraceService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,25 +20,31 @@ public class IpController {
 
     @GetMapping("/ping")
     @ResponseStatus(HttpStatus.OK)
-    public void ping() {
+    public ResponseEntity ping() {
         // Returns OK if IP Trace service is up
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping(value = "/trace")
-    public TraceResponseDto trace(@RequestBody(required = true) IpRequestModel ipModel) {
+    public ResponseEntity<TraceResponseDto> trace(@RequestBody(required = true) IpRequestModel ipModel) {
 
         TraceResponseDto traceInformation = traceService.traceIp(ipModel.getIp());
 
-        return traceInformation;
+        if (traceInformation == null) {
+            // Información de IP no encontrada
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity(traceInformation, HttpStatus.OK);
 
     }
 
     @GetMapping(value = "/stats")
-    public StatsResponseDto getStatistics() {
+    public ResponseEntity<StatsResponseDto> getStatistics() {
 
         StatsResponseDto statistics = traceService.getStatistics();
 
-        return statistics;
+        return new ResponseEntity(statistics, HttpStatus.OK);
 
     }
 

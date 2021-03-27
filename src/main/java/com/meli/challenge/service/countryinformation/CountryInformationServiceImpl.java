@@ -63,7 +63,6 @@ public class CountryInformationServiceImpl implements CountryInformationService 
         CountryInformationDto countryInformation = new CountryInformationDto();
         countryInformation.setName(countryResult.getName());
         countryInformation.setTimezones(countryResult.getTimezones());
-        // TODO: obtener todas las monedas
         countryInformation.setCurrencyCode(countryResult.currencies.get(0).getCode());
         countryInformation.setCountryIsoAlphaCode3(countryIsoAlphaCode3);
 

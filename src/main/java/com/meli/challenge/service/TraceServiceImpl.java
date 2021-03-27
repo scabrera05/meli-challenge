@@ -6,6 +6,7 @@ import com.meli.challenge.service.currencyconversion.CurrencyInformationService;
 import com.meli.challenge.service.ipgeolocation.IpGeoLocationService;
 import com.meli.challenge.service.location.LocationService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,11 +40,17 @@ public class TraceServiceImpl implements TraceService {
     @Override
     public TraceResponseDto traceIp(String ip) {
 
-        // Obtener información de país por IP
-        IpLocationInformationDto ipLocationInfo = ipGeoLocationService.getIpLocationInformationDto(ip);
+        IpLocationInformationDto ipLocationInfo = null;
 
-        // TODO: controlar resultado distinto de null
-        // TODO: controlar posible excepciones con invocación
+        try {
+            // Obtener información de país por IP
+            ipLocationInfo = ipGeoLocationService.getIpLocationInformationDto(ip);
+        } catch (HttpClientErrorException httpClientErrorException) {
+            if (httpClientErrorException.getStatusCode().is4xxClientError()) {
+                // No se encuentra información geográfica de la IP
+                return null;
+            }
+        }
 
         // Obtener información de pais
         CountryInformationDto country = countryInformationService.getCountryInformationByIsoAlphaCode3(ipLocationInfo.getCountryIsoAlphaCode3());
