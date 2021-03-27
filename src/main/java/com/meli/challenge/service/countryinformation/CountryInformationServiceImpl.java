@@ -16,9 +16,13 @@ public class CountryInformationServiceImpl implements CountryInformationService 
 
     public static final double BUENOS_AIRES_LATITUDE = -34.599722;
     public static final double BUENOS_AIRES_LONGITUDE = -58.381944;
-
+    private final RestTemplate restTemplate;
     @Value("${restCountriesService.baseUrl}")
     public String restCountryServiceBaseUrl;
+
+    public CountryInformationServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     /**
      * Información basada en https://www.geodatasource.com/resources/tutorials/how-to-calculate-the-distance-between-2-locations-using-java/
@@ -52,9 +56,6 @@ public class CountryInformationServiceImpl implements CountryInformationService 
 
     @Cacheable("countries")
     public CountryInformationDto getCountryInformationByIsoAlphaCode3(String countryIsoAlphaCode3) {
-
-        // TODO: Autowire RestTemplate
-        RestTemplate restTemplate = new RestTemplate();
 
         String countryApiUrl = restCountryServiceBaseUrl + '/' + countryIsoAlphaCode3;
         CountryApiResponse countryResult = restTemplate.getForObject(countryApiUrl, CountryApiResponse.class);
@@ -122,7 +123,6 @@ public class CountryInformationServiceImpl implements CountryInformationService 
         List<String> otherAcronyms;
         List<String> otherNames;
     }
-    // TODO: Limpiar clase
 
     @Getter
     @Setter

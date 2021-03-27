@@ -12,15 +12,17 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class IpGeoLocationServiceImpl implements IpGeoLocationService {
 
-    // TODO: inyectar RestTemplate
-
     @Value("${ip2CountryService.baseUrl}")
     private String ip2CountryBaseUrl;
 
+    private final RestTemplate restTemplate;
+
+    public IpGeoLocationServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     @Override
     public IpLocationInformationDto getIpLocationInformationDto(String ip) {
-
-        RestTemplate restTemplate = new RestTemplate();
 
         Ip2CountryResult ip2CountryResult = restTemplate.getForObject(ip2CountryBaseUrl + "/ip?" + ip, Ip2CountryResult.class);
 

@@ -51,8 +51,11 @@ public class TraceServiceImpl implements TraceService {
         // Obtener información de moneda
         CurrencyInformationDto currency = currencyInformationService.getCurrencyInformation(country.getCurrencyCode());
 
-        // Guardar información sobre llamada
-        // TODO: implementar
+        // Save location distance information
+        locationService.saveLocation(
+                country.getCountryIsoAlphaCode3(),
+                country.getName(),
+                country.getDistanceFromBuenosAires());
 
         TraceResponseDto traceResponse = new TraceResponseDto();
         traceResponse.setIp(ip);
@@ -64,13 +67,6 @@ public class TraceServiceImpl implements TraceService {
         traceResponse.setTimezones(country.getTimezones());
         traceResponse.setCurrency(String.format("%S (1 %S = %s %S)", country.getCurrencyCode(), currency.getBase(), currency.getRate(), country.getCurrencyCode()));
         traceResponse.setEstimatedDistance(String.format("%s Kms", (long) country.getDistanceFromBuenosAires()));
-
-        // Save location distance information
-        locationService.saveLocation(
-                country.getCountryIsoAlphaCode3(),
-                country.getName(),
-                country.getDistanceFromBuenosAires()
-        );
 
         return traceResponse;
     }

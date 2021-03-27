@@ -3,6 +3,7 @@ package com.meli.challenge.service.currencyconversion;
 import com.meli.challenge.domain.dto.CurrencyInformationDto;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -23,11 +24,14 @@ public class CurrencyInformationServiceImpl implements CurrencyInformationServic
     @Value("${fixerCurrencyService.baseCurrency}")
     private String baseCurrency;
 
+    private final RestTemplate restTemplate;
+
+    public CurrencyInformationServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     @Cacheable("currencies")
     public CurrencyInformationDto getCurrencyInformation(String currencyCode) {
-
-        RestTemplate restTemplate = new RestTemplate();
-
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(currencyApiUrl)
                 .queryParam("access_key", accessKey)
