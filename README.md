@@ -142,7 +142,5 @@ Health check endpoint. HTTP 200 OK status code returned
 
 ## Improvements and TO-DO list
 
-* Deploy app in Heorku
 * Implement Unit Tests
 * Allow https
-* Add swagger documentation
