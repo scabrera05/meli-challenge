@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/challenge")
+@RequestMapping("api/challenge")
 public class IpController {
 
     private final TraceService traceService;
@@ -18,14 +18,14 @@ public class IpController {
         this.traceService = traceService;
     }
 
-    @GetMapping("/ping")
+    @GetMapping("ping")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity ping() {
         // Returns OK if IP Trace service is up
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping(value = "/trace")
+    @PostMapping(value = "trace")
     public ResponseEntity<TraceResponseDto> trace(@RequestBody(required = true) IpRequestModel ipModel) {
 
         TraceResponseDto traceInformation = traceService.traceIp(ipModel.getIp());
@@ -36,10 +36,9 @@ public class IpController {
         }
 
         return new ResponseEntity(traceInformation, HttpStatus.OK);
-
     }
 
-    @GetMapping(value = "/stats")
+    @GetMapping(value = "stats")
     public ResponseEntity<StatsResponseDto> getStatistics() {
 
         StatsResponseDto statistics = traceService.getStatistics();
