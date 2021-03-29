@@ -4,6 +4,8 @@ REST API solution for Mercado Libre backend challenge.
 
 The service returns information about the geographic location, currency. In addition, it is possible to obtain statistical information of the invocations.
 
+REST API Swagger information: https://ip-trace-challenge.herokuapp.com/swagger-ui.html
+
 ## Technology stack and plugins used
 
 * [Spring Boot]("https://spring.io/projects/spring-boot")
@@ -49,15 +51,16 @@ $ cd meli-challenge
 
 Adjust `application.properties`
 
-* Postgres database
+* Postgres database source
+* Fixer service access key
 * Redis server
-* Fixer access key
+* Set `spring.cache.type` value to `redis` to enable redis server caching. Set value to `none` to disable caching.
 
 ```properties
-spring.datasource.username=[POSTGRES_USERNAME]
-spring.datasource.password=[POSTGRES_PASSWORD]
-fixerCurrencyService.accessKey=[FIXER_IO_ACCESS_KEY]
-redis.password=[REDIS_PASSWORD]
+spring.datasource.username=${SPRING_DATASOURCE_USERNAME}
+spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
+fixerCurrencyService.accessKey=${FIXER_IO_ACCESS_KEY}
+spring.cache.type=${CACHE_TYPE}
 ```
 
 Run the application using the [Spring Boot Maven plugin]("https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/")
